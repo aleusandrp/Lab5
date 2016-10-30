@@ -72,21 +72,38 @@ if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 	*/
 	$row = 1;
 	$handle = fopen("oldbase.txt", "r");
+	$Email_Errors = 0;
+	$Sex_Errors = 0;
+	$Number_Errors = 0;
+	$Address_Errors = 0;
 	while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-		$num = count($data);
-	        echo $data[7] . "<br />\n";
-	 		echo "<br>";
+		//$num = count($data);
+        echo $data[0] . "<br />\n";
+        echo $data[7] . "<br />\n";
+		    if(!(preg_match('/^(([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9\-]+)\.[a-zA-Z0-9\-.]+)$/', $data[7]))){
+		    	$Email_Errors++;
+		    }
+        echo $data[4] . "<br />\n";
+	        if(!(preg_match('/^(male|female)$/', $data[4]))){
+	          	$Sex_Errors++;
+	        }
+        echo $data[8] . "<br />\n";
+	        if(!(preg_match('/^\d+-\d+-\d+$/', $data[8]))){
+	          	$Number_Errors++;
+	        }
+        echo $data[14] . "<br />\n";
+	        if(!(preg_match('/^\d+\s[a-zA-Z]+\s?[a-zA-Z]*\s?[a-zA-Z]*\s?[a-zA-Z]*$/', $data[14]))){
+	          	$Address_Errors++;
+	        }
+	    //$data[14] = preg_replace('/^\d+\s[a-zA-Z]+\s?[a-zA-Z]*\s?[a-zA-Z]*\s?[a-zA-Z]*$/', " ", $data[14]);
 
-	          if(preg_match('/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9\-.]+$/', $data[7])){
-	          	echo "es";
-	          }else{
-	          	echo "no";
-	          }
-	 		echo "<br>";
-	        echo $data[4] . "<br />\n";
-	        echo $data[8] . "<br />\n";
-	        echo $data[14] . "<br />\n";	    
+        //echo $data[14] . "<br />\n";	    
 	}
+	echo "В базе ошибок: <br>";
+	echo "В поле Email: ".$Email_Errors."<br>";
+	echo "В поле Sex: ".$Sex_Errors."<br>";
+	echo "В поле Number: ".$Number_Errors."<br>";
+	echo "В поле Address: ".$Address_Errors."<br>";
 	fclose($handle);
 
 } else {
