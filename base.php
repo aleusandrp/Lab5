@@ -17,12 +17,18 @@ if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
     function NewFormat($base){
     	for ($i=0; $i < count($base); $i++) { 
     		// Дополнить номер записи до 6-ти знаков в поле ID 
-	        //$base[$i]->ID = preg_replace('/\b(male)\b/', '1', $base[$i]->ID);
+	        $base[$i]->ID = str_pad($base[$i]->ID, 6, '0', STR_PAD_LEFT);;
     		// Замена male на 1 female на 2 в поле Sex
 	        $base[$i]->Sex = preg_replace('/\b(male)\b/', '1', $base[$i]->Sex);
 	        $base[$i]->Sex = preg_replace('/\b(female)\b/', '0', $base[$i]->Sex);
+	        // Какая то хуйня с телефоном
+
+	        // Перевести из формата м/д/гггг в дд.мм.гггг
+	        $base[$i]->BirthDay = preg_replace('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', '$1.$2.$3', $base[$i]->BirthDay);
 	        // Округлить вес до целой части в поле Weight
 	        $base[$i]->Weight = preg_replace('/(\d+)(\.?)(\d*)/', '$1', $base[$i]->Weight);
+	        //Перенести номер дома в конец адреса, отделив запятой
+	        $base[$i]->Address = preg_replace('/(\d+).(.*)/', '$2, $1', $base[$i]->Address);
 		}   
     }   
 
@@ -31,12 +37,14 @@ if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 	EchoBase($base);
 	EchoErrors($base);
 	CorrectFloor($base);
-	EchoBase($base);
 	NewFormat($base);
-	fclose($handle);
+	EchoBase($base);
+	CreateNewBase($base);
 
+
+
+	fclose($handle);
 } else {
     die();
 }
-
- ?>
+?>

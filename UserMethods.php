@@ -73,4 +73,12 @@
 	        $base[$i]->Address = preg_replace('/(\d+)(.?)(.*)/', '$1 $3', $base[$i]->Address);
 		}    	
 	}
+	//Создание нового файла с базой
+	function CreateNewBase($base){
+		$fp = fopen("newbase.txt", "a");
+		for ($i=0; $i < count($base); $i++) { 
+			fwrite($fp, $base[$i]->baseprint());
+		} 
+		fclose($fp);
+	}
  ?>

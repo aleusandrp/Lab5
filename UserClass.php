@@ -42,6 +42,9 @@ class User
 	function write(){
 		echo $this->ID.';'.$this->Name.';'.$this->Initial.';'.$this->SurName.';'.$this->Sex.';'.$this->City.';'.$this->Region.';'.$this->Email.';'.$this->Phone.';'.$this->BirthDay.';'.$this->Post.';'.$this->Company.';'.$this->Weight.';'.$this->Height.';'.$this->Address.';'.$this->Index.';'.$this->Code.'<br>';
 	}
+	function baseprint(){
+		return $this->ID.';'.$this->Name.';'.$this->Initial.';'.$this->SurName.';'.$this->Sex.';'.$this->City.';'.$this->Region.';'.$this->Email.';'.$this->Phone.';'.$this->BirthDay.';'.$this->Post.';'.$this->Company.';'.$this->Weight.';'.$this->Height.';'.$this->Address.';'.$this->Index.';'.$this->Code.PHP_EOL;
+	}
 }
 
 ?>
