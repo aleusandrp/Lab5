@@ -6,6 +6,7 @@
 			if(!(preg_match('/^(([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9\-]+)\.[a-zA-Z0-9\-.]+)$/', $base[$i]->Email))){
 		    	$Err++;
 		    }
+
 		}
 		return $Err;
 	}
@@ -62,6 +63,7 @@
 		    }
 	        $base[$i]->Email = preg_replace('/[^a-zA-Z0-9@_\-.]/', '', $base[$i]->Email);
 	        $base[$i]->Email = preg_replace('/(@+)/', '@', $base[$i]->Email);
+	        $base[$i]->Email = preg_replace('/(\.+)/', '.', $base[$i]->Email);
 			//Исправление поля Sex
 			if(!(preg_match('/^(male|female|\s)$/', $base[$i]->Sex))){
 	          	$base[$i]->Sex = " ";
@@ -85,6 +87,10 @@
 
 	        // Перевести из формата м/д/гггг в дд.мм.гггг
 	        $base[$i]->BirthDay = preg_replace('/(\d{1,2})\/(\d{1,2})\/(\d{4})/', '$1.$2.$3', $base[$i]->BirthDay);
+			if(strlen(preg_replace('/(\d*).(\d*).(\d*)/', '$1', $base[$i]->BirthDay)) == 1)
+			    $base[$i]->BirthDay = preg_replace('/(\d*).(\d*).(\d*)/', '0$1.$2.$3', $base[$i]->BirthDay);
+			if(strlen(preg_replace('/(\d*).(\d*).(\d*)/', '$2', $base[$i]->BirthDay)) == 1)
+			    $base[$i]->BirthDay = preg_replace('/(\d*).(\d*).(\d*)/', '$1.0$2.$3', $base[$i]->BirthDay);
 	        // Округлить вес до целой части в поле Weight
 	        $base[$i]->Weight = preg_replace('/(\d+)(\.?)(\d*)/', '$1', $base[$i]->Weight);
 	        //Перенести номер дома в конец адреса, отделив запятой

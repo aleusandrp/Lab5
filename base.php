@@ -13,8 +13,9 @@ if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
         				   $data[7],$data[8],$data[9],$data[10],$data[11],$data[12],$data[13],
         				   $data[14],$data[15],$data[16]);
 	}
+	fclose($handle);
 	
-	EchoBase($base);
+	//EchoBase($base);
 	EchoErrors($base);
 	CorrectFloor($base);
 	NewFormat($base);
@@ -23,7 +24,6 @@ if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
 
 	unset($base);
 
-	fclose($handle);
 } else {
     die();
 }

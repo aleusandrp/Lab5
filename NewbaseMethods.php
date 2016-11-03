@@ -5,6 +5,7 @@
 			$base[$i]->write();
 		}
 	}
+	/*Найти количество женщин и мужчин, определить средний рост, вес и возраст для каждой категории. Определить количество женщин и мужчин, которые имеют рост, вес и возраст “ниже среднего”, “средний”, “выше среднего” для каждой характеристики, в рамках каждой группы.*/
 	function WHOStats($base){
 		$male = 0;
 		$maleWeight = 0;
@@ -141,5 +142,67 @@
 			 "<br>Женщин среднего возраств: ".$OfemaleXX.
 			 "<br>Женщин меньше среднего возраств: ".$OfemaleX
 			 ;
+	}
+	//Вывести имя, телефон и полный адрес самого пожилого и самого молодого человека.
+	function OldNew($base){
+		$Old = 100500;
+		$New = 0;
+		$Oldid = 0;
+		$Newid = 0;
+  		for ($i=0; $i < count($base); $i++) { 
+  			$Year = preg_replace('/^(\d*).(\d*).(\d*)$/','$3', $base[$i]->BirthDay);
+  			if($Year < $Old){
+  				$Old = $Year;
+  				$Oldid = $i;
+  			}
+  			elseif($Year > $New){
+  				$New = $Year;
+  				$Newid = $i;
+  			}
+  		}
+		echo "<br>Самый старый человек: ".$base[$Oldid]->Name." Его номер: ".$base[$Oldid]->Phone." Его адрес: ".$base[$Oldid]->Address;
+		echo "<br>Самый молодой человек: ".$base[$Newid]->Name." Его номер: ".$base[$Newid]->Phone." Его адрес: ".$base[$Newid]->Address;
+	}
+	// Варианты почтового сервера
+	function MailSort($base){
+		$Posts = array();
+		for ($i=0; $i < count($base); $i++) { 
+			$Mail = $base[$i]->Email;
+			if($Mail == ''){
+				continue;
+			}
+
+			$Mail = substr($Mail, strripos($Mail, '@'), strlen($Mail));
+
+				$Posts[] = $Mail;
+		}
+		$Posts = array_count_values($Posts);
+		echo "<br><br>Все почтовые сервера и кол-во их пользователей:";	
+		echo "<pre>";	
+		print_r($Posts);
+		echo "<br>";
+
+	}
+	// Вывод имени людей которые родились в праздничный день, сортируя их по дате
+	function HolyBirthDay($base){
+		$HolyDays = array('01.01', '07.01', '14.02', '23.02', '08.03', '01.05', '31.12');
+		for ($i=0; $i < count($base); $i++) {
+			if (in_array(preg_replace('/(\d*).(\d*).(\d*)/', '$1.$2', $base[$i]->BirthDay), $HolyDays)) {
+			 	$Users[$i]['Date'] = preg_replace('/(\d*).(\d*).(\d*)/', '$1.$2.$3', $base[$i]->BirthDay);
+			 	$Users[$i]['Name'] = $base[$i]->Name;
+			}
+		}
+		$items = [];
+		foreach($Users as $Users) {
+		  $items[$Users["Date"]][] = $Users;
+		}
+		ksort($items);
+		foreach($items as $group) {
+		  echo "<div>";
+		  foreach($group as $filter) {
+		    echo "{$filter['Date']} - {$filter['Name']}<br />";
+		  }
+		  echo "</div>";
+		}
 	}
  ?>

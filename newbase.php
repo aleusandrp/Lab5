@@ -14,17 +14,21 @@ if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
         				   $data[7],$data[8],$data[9],$data[10],$data[11],$data[12],$data[13],
         				   $data[14],$data[15],$data[16]);
 	}
+	fclose($handle);
 
 	
-	EchoBase($base);
 	WHOStats($base);
-
-
-
+	OldNew($base);
+	MailSort($base);
+	HolyBirthDay($base);
 	unset($base);
-
-	fclose($handle);
+	include('write.php');
 } else {
-    die();
+	echo "Ошибка";
 }
 ?>
+<form action="write.php" method="GET">
+	<p><label for="name"> Диапазон вывода </label>
+	<input type="text" name="area"></p>
+	<p><input type="submit" value="Ввод"></p>
+</form>
