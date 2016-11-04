@@ -63,7 +63,7 @@
 		    }
 	        $base[$i]->Email = preg_replace('/[^a-zA-Z0-9@_\-.]/', '', $base[$i]->Email);
 	        $base[$i]->Email = preg_replace('/(@+)/', '@', $base[$i]->Email);
-	        $base[$i]->Email = preg_replace('/(\.+)/', '.', $base[$i]->Email);
+	        $base[$i]->Email = preg_replace('/([\.]+)/', '.', $base[$i]->Email);
 			//Исправление поля Sex
 			if(!(preg_match('/^(male|female|\s)$/', $base[$i]->Sex))){
 	          	$base[$i]->Sex = " ";
